@@ -33,16 +33,28 @@ const fetchData = async (endpoint, token) => {
   }
 };
 
-export const searchClient = async (phone, token) => {
+export const searchClient = async (term, token) => {
   try {
-    const url = `${API_BASE}/contragents/?phone=${phone}&token=${token}`;
+    let url;
+    if (!term) {
+      url = `${API_BASE}/contragents/?token=${token}`;
+    } else {
+      const isDigits = /^\d+$/.test(term); // только цифры?
+      const queryParam = isDigits ? "phone" : "name";
+      url = `${API_BASE}/contragents/?${queryParam}=${encodeURIComponent(term)}&token=${token}`;
+    }
+
     console.log("📡 Запрос:", url);
 
     const res = await fetch(url, { cache: "no-store" });
-    if (!res.ok) throw new Error(`HTTP ${res.status}`);
-    const data = await res.json();
 
-    console.log("📨 Ответ: contragents", data);
+    if (!res.ok) {
+      throw new Error(`HTTP ${res.status}: ${await res.text()}`);
+    }
+
+    const data = await res.json();
+    console.log("📨 Ответ contragents:", data);
+
     return data;
   } catch (err) {
     console.error("Ошибка поиска клиента:", err);

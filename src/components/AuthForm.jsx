@@ -3,10 +3,11 @@ import React, { useState } from 'react';
 // Функция для проверки токена
 const validateToken = async (token) => {
   try {
-    const res = await fetch(`https://app.tablecrm.com/api/v1/organizations/?token=${token}&limit=1`);
+    const res = await fetch(`/api/contragents/?token=${token}`);
     return res.ok; 
-  } catch (err) {
-    return false;
+  } catch (e) {
+      console.error("Ошибка поиска клиента:", e)
+      return []
   }
 };
 

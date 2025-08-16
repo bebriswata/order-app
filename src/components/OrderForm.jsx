@@ -1,5 +1,5 @@
-// src/components/OrderForm.jsx
 import React, { useState, useEffect } from 'react';
+import DropdownInput from "./DropdownInput";
 import {
   searchClient,
   getOrganizations,
@@ -9,6 +9,7 @@ import {
   getNomenclature,
   createSale
 } from '../api/api';
+
 
 const OrderForm = ({ token }) => {
   const [phone, setPhone] = useState('');
@@ -25,6 +26,10 @@ const OrderForm = ({ token }) => {
   const [paidRubles, setPaidRubles] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+
+  const getDisplayName = (item) => {
+    return item.name || item.short_name || item.full_name || item.work_name || "— без названия —";
+  };
 
   useEffect(() => {
   if (!token) return;
@@ -53,17 +58,27 @@ const OrderForm = ({ token }) => {
   fetchData();
 }, [token]);
 
+  //поиск контрагента
 
-  const handleSearchClient = async () => {
-    if (!phone) return;
+// состояния
+  const [clientOptions, setClientOptions] = useState([]);
+  const [selectedClient, setSelectedClient] = useState(null);
+
+// поиск клиентов
+  const handleSearchClient = async (term) => {
     try {
-      const data = await searchClient(phone, token);
-      const found = Array.isArray(data.results) ? data.results[0] : data[0];
-      if (found) setClient(found);
-    } catch (err) {
-      setError('Клиент не найден');
+      const data = await searchClient(term, token);
+      const list =
+          Array.isArray(data?.result) ? data.result :
+              Array.isArray(data?.results) ? data.results :
+                  Array.isArray(data) ? data : [];
+      setClientOptions(list);
+    } catch (e) {
+      console.error("Ошибка поиска клиента", e);
+      setClientOptions([]);
     }
   };
+
 
   const addGood = () => {
     if (nomenclature.length === 0) return;
@@ -110,9 +125,9 @@ const OrderForm = ({ token }) => {
         sum_discounted: g.sum,
         nomenclature: g.nomenclature
       })),
-      loyality_card_id: client?.loyalty_cards?.[0]?.id || null,
+      contragent: selectedClient?.id || null,
+      loyality_card_id: selectedClient?.loyalty_cards?.[0]?.id || null,
       warehouse: selectedWarehouse,
-      contragent: client?.id || null,
       paybox: selectedBill,
       organization: selectedOrg,
       status: !conduct,
@@ -139,56 +154,54 @@ const OrderForm = ({ token }) => {
 
       {/* Поиск клиента */}
       <div className="input-group">
-        <label>Телефон клиента</label>
-        <div style={{ display: 'flex' }}>
-          <input
-            type="tel"
-            value={phone}
-            onChange={(e) => setPhone(e.target.value)}
-            placeholder="79991234567"
-          />
-          <button onClick={handleSearchClient} className="search-btn">
-            Найти
-          </button>
-        </div>
-        {client && (
-          <div className="client-info">
-            🧑 <strong>{client.name}</strong> | Баланс: {client.balance || 0} ₽
-          </div>
-        )}
+        <DropdownInput
+            label="Клиент"
+            options={clientOptions}
+            selected={selectedClient}                    // ← передаём объект, не id
+            onSelect={(client) => setSelectedClient(client)}  // ← получаем объект
+            onSearch={handleSearchClient}               // ← ВАЖНО: сюда передаём поиск
+            getDisplayName={(c) =>
+                c?.short_name || c?.name || c?.phone || String(c?.id ?? "")
+            }
+            placeholder="Введите телефон или ID клиента"
+            minChars={2}
+        />
       </div>
 
       {/* Организация */}
       <div className="input-group">
-        <label>Организация</label>
-        <select value={selectedOrg} onChange={(e) => setSelectedOrg(e.target.value)}>
-          <option value="">Выберите организацию</option>
-          {organizations.map(org => (
-            <option key={org.id} value={org.id}>{org.name}</option>
-          ))}
-        </select>
+        <DropdownInput
+            label="Организация"
+            options={organizations}
+            selected={selectedOrg}
+            onSelect={setSelectedOrg}
+            getDisplayName={getDisplayName}
+            placeholder="Выберите организацию"
+        />
       </div>
 
       {/* Склад */}
       <div className="input-group">
-        <label>Склад</label>
-        <select value={selectedWarehouse} onChange={(e) => setSelectedWarehouse(e.target.value)}>
-          <option value="">Выберите склад</option>
-          {warehouses.map(wh => (
-            <option key={wh.id} value={wh.id}>{wh.name}</option>
-          ))}
-        </select>
+        <DropdownInput
+            label="Склад"
+            options={warehouses}
+            selected={selectedWarehouse}
+            onSelect={setSelectedWarehouse}
+            getDisplayName={getDisplayName}
+            placeholder="Выберите склад"
+        />
       </div>
 
       {/* Касса (счёт) */}
       <div className="input-group">
-        <label>Касса (счёт)</label>
-        <select value={selectedBill} onChange={(e) => setSelectedBill(e.target.value)}>
-          <option value="">Выберите кассу</option>
-          {bills.map(bill => (
-            <option key={bill.id} value={bill.id}>{bill.name}</option>
-          ))}
-        </select>
+        <DropdownInput
+            label="Касса (счёт)"
+            options={bills}
+            selected={selectedBill}
+            onSelect={setSelectedBill}
+            getDisplayName={getDisplayName}
+            placeholder="Выберите кассу"
+        />
       </div>
 
       {/* Товары */}
