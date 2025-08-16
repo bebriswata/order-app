@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 // Функция для проверки токена
 const validateToken = async (token) => {
   try {
-    const res = await fetch(`/api/contragents/?token=${token}`);
+    const res = await fetch(`${API_BASE}/contragents/?token=${token}`);
     return res.ok; 
   } catch (e) {
       console.error("Ошибка поиска клиента:", e)

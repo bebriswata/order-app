@@ -1,4 +1,4 @@
-const API_BASE = 'https://app.tablecrm.com/api/v1';
+export const API_BASE = 'https://app.tablecrm.com/api/v1';
 
 const normalize = (data) => {
   if (!data) return [];
