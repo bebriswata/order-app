@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import {API_BASE} from "../api/api.js";
 
 // Функция для проверки токена
 const validateToken = async (token) => {

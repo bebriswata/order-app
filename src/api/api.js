@@ -62,6 +62,7 @@ export const searchClient = async (term, token) => {
   }
 };
 
+
 export const getOrganizations = (token) => fetchData("organizations", token);
 export const getWarehouses = (token) => fetchData("warehouses", token);
 export const getBills = (token) => fetchData("payboxes", token);
