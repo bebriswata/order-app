@@ -63,7 +63,7 @@ const OrderForm = ({ token }) => {
         nomenclature: p.id,
         name: getProductName(p),
         price,
-        quantity: 1,
+        quantity: 0,
         sum: price,
       },
     ]);
@@ -228,11 +228,10 @@ const OrderForm = ({ token }) => {
                             type="number"
                             step="0.01"
                             min="0"
-                            value={good.price === 0 ? "" : good.price} // ← хитрость: показываем пустое поле, если 0
+                            value={good.price === 0 ? "" : good.price}
                             onChange={(e) => {
                               const value = e.target.value;
 
-                              // Оставляем value как строку в состоянии, если пусто
                               const updatedGoods = [...goods];
                               updatedGoods[index].price = value === "" ? 0 : parseFloat(value) || 0;
                               setGoods(updatedGoods);
@@ -246,13 +245,15 @@ const OrderForm = ({ token }) => {
                             type="number"
                             step="1"
                             min="0"
-                            value={good.quantity}
+                            value={good.quantity === 0 ? "" : good.quantity}
                             onChange={(e) => {
-                              const quantity = parseInt(e.target.value, 10) || 1;
+                              const value = e.target.value;
+
                               const updatedGoods = [...goods];
-                              updatedGoods[index].quantity = quantity;
+                              updatedGoods[index].quantity = value === "" ? 0 : parseFloat(value) || 0;;
                               setGoods(updatedGoods);
                             }}
+                            placeholder="0"
                             className="goods-input goods-input-quantity"
                             aria-label="Количество товара"
                         />
