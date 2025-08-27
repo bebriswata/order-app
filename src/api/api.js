@@ -80,13 +80,14 @@ export const createSale = async (payload, token) => {
       body: JSON.stringify(payload),
     });
 
-    if (!res.ok) {
-      throw new Error(`HTTP ${res.status}: ${res.statusText}`);
-    }
+      if (!res.ok) {
+          const errorText = await res.text();
+          throw new Error(`HTTP ${res.status}: ${errorText}`);
+      }
 
-    return await res.json();
+      return await res.json();
   } catch (err) {
-    console.error("Ошибка создания продажи:", err);
-    throw err;
+      console.error("Ошибка создания продажи:", err);
+      throw err;
   }
 };

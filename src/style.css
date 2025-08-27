@@ -172,20 +172,31 @@ input, select, button, textarea {
   border-radius: 6px;
 }
 
-.good-item .remove-btn {
-  width: 100%;
-  padding: 8px;
-  background: #dc3545;
-  color: white;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-  font-size: 14px;
-  transition: background 0.2s;
+.good-item .remove-icon {
+    background: none;
+    border: none;
+    font-size: 18px;
+    cursor: pointer;
+    color: #dc3545;
+    padding: 6px;
+    border-radius: 6px;
+    transition: all 0.2s ease;
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
-.good-item .remove-btn:hover {
-  background: #c82333;
+.good-item .remove-icon:hover {
+    background-color: #dc3545;
+    color: white;
+    transform: scale(1.1);
+}
+
+.good-item .remove-icon:focus {
+    outline: 2px solid #dc3545;
+    outline-offset: 2px;
 }
 
 /* Итог */

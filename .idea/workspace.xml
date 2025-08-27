@@ -6,7 +6,9 @@
   <component name="ChangeListManager">
     <list default="true" id="b4f77f8a-3c32-4a08-be41-2ff8790a1ccd" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/api/api.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/api/api.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/OrderForm.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/OrderForm.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/style.css" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -54,7 +56,7 @@
     "nodejs_package_manager_path": "npm",
     "settings.editor.selected.configurable": "terminal",
     "to.speed.mode.migration.done": "true",
-    "ts.external.directory.path": "C:\\Program Files\\JetBrains\\WebStorm 2024.3.5\\plugins\\javascript-plugin\\jsLanguageServicesImpl\\external",
+    "ts.external.directory.path": "C:\\Program Files\\JetBrains\\WebStorm 2025.2\\plugins\\javascript-plugin\\jsLanguageServicesImpl\\external",
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
@@ -75,7 +77,9 @@
       <workItem from="1755331363258" duration="1129000" />
       <workItem from="1755332515473" duration="9788000" />
       <workItem from="1755343650187" duration="6987000" />
-      <workItem from="1755457191313" duration="1070000" />
+      <workItem from="1755457191313" duration="2075000" />
+      <workItem from="1755658948484" duration="106000" />
+      <workItem from="1756279850059" duration="16361000" />
     </task>
     <servers />
   </component>
